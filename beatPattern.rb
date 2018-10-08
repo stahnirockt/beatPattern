@@ -34,7 +34,7 @@ def samplePattern(pattern, *args)
   if args_h[:mode]
     mode = args_h.delete(:mode)
   else
-    mode = :sample
+    mode = :samples
   end
 
   element = pattern[position] #select actual element
@@ -82,9 +82,9 @@ end
 
 def handleElement(element, mode, args_h)
   case mode
-  when :sample
+  when :samples
     sample element, args_h
-  when :play
+  when :notes
     play element, args_h
   end
 end
