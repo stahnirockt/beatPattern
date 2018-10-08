@@ -6,7 +6,7 @@ These are some functions to parse a string like 'x-x-(hc)-[xx:2]-' into a ring o
 1. Download the samples fom [foxdot](https://github.com/Qirky/FoxDot/tree/master/FoxDot/snd) or
 create an own sample library. Therefor you have to design the folder structure like 'ownsounds/letter/lower_or_upper/soundfiles' e.g. /soundlibrary/a/lower/bd.wav
 
-2. (optional) - Edit the first line in beatParser.rb and change '/path/to/foxdot_snd' into your real path
+2. (recommended but optional) - Edit the first line in beatParser.rb and change '/path/to/foxdot_snd' into your real path
 
 3. Open a Buffer in SonicPi and type
 ```ruby
