@@ -43,3 +43,6 @@ Following paramters can also be set.
 * `beat_duration: value` | standard is 1.0/ring.length()
 * `position: tick(:value)` | standard is simple `tick`
 * other arguments from sample or play like `rate:` or `amp:`
+
+## To-Do
+* create meaningful Soundlibrary for SonicPi built-in sounds
