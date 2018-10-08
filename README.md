@@ -28,11 +28,11 @@ end
 ```
 
 ## How it works
-### important parameters for setupBeat
+### Important parameters for setupBeat
 * first Parameter is a beatString --> it's required
 * optional you can pass the path to your soundfiles with `sample_path: 'path/to'file/'`
 
-### important parameters for samplePattern
+### Important parameters for samplePattern
 * first Parameter is a ring with sample_values (e.g. a parsed String) or notes--> it's required
 Following paramters can also be set.
 * `mode:` `:notes` or `:samples` | standard is `:samples`
