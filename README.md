@@ -21,7 +21,9 @@ sample_path: 'path/to/foxdot_snd/') #only necessary if you skip step 2 during in
 ```
 
 () - choose alternating element every passing
+
 [] - play elements inside the brackets in one count
+
 or just play the element
 
 2. create a live_loop and call the samplePattern function and hit run e.g.
