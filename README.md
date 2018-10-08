@@ -20,6 +20,10 @@ beat = setupBeat('x-[x:3x](-h[-:3-]h:2)',
 sample_path: 'path/to/foxdot_snd/') #only necessary if you skip step 2 during installation
 ```
 
+() - choose alternating element every passing
+[] - play elements inside the brackets in one count
+or just play the element
+
 2. create a live_loop and call the samplePattern function and hit run e.g.
 ```ruby
 live_loop :foo do
