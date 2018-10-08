@@ -1,17 +1,5 @@
 require_relative 'beatParser.rb'
 
-# function to parse the string with checkstring
-# return a ring containing elements, rings or/and arrays
-def parseBeatString(str)
-  pattern = []
-  scanner = StringScanner.new(str)
-  until scanner.pos == str.length
-    checkStringElement(scanner, pattern)
-  end
-  pattern.ring
-end
-
-
 def samplePattern(pattern, *args)
   args_h = resolve_synth_opts_hash_or_array(args)
 
