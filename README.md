@@ -68,7 +68,7 @@ end
 Following paramters can also be set.
 * `mode:` `:notes`, `:samples` or `:midis` | standard is `:samples`
 * `beat_duration: value` | standard is 1.0/ring.length()
-* `position: tick(:value)` | standard is simple `tick`
+* `position: value` | standard is simple `tick` but you can use numbers or something like tick(:value)
 * other arguments from sample or play like `rate:` or `amp:`
 
 ## To-Do
