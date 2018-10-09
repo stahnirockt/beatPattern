@@ -74,10 +74,12 @@ def handleElement(element, mode, args_h)
     sample element, args_h
   when :notes
     play element, args_h
+  when :midis
+    midi element, args_h
   end
 end
 
-def setupBeat(beat_string, sample_path: false)
+def setBeat(beat_string, sample_path: false)
   if sample_path
     setSounds(sample_path)
   else
