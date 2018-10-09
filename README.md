@@ -59,7 +59,7 @@ end
 ```
 
 ## Usefull to know
-### Important parameters for setupBeat
+### Important parameters for setBeat()
 * first Parameter is a beatString --> it's required
 * optional you can pass the path to your soundfiles with `sample_path: 'path/to'file/'`
 
