@@ -79,7 +79,7 @@ def handleElement(element, mode, args_h)
   end
 end
 
-def setBeat(beat_string, sample_path: false)
+def setupBeat(beat_string, sample_path: false)
   if sample_path
     setSounds(sample_path)
   else
