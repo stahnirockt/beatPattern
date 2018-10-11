@@ -1,5 +1,15 @@
 require_relative 'beatParser.rb'
 
+
+class ::SonicPi::Core::RingVector
+  # extend function for ringvector to create a palindrome of a ring
+  # e.g. (ring 1,2,3,4).palindrome => (ring 1,2,3,4,4,3,2,1)
+  def palindrome()
+    self+self.reverse
+  end
+end
+
+
 def samplePattern(pattern, *args)
   args_h = resolve_synth_opts_hash_or_array(args)
 
@@ -8,25 +18,32 @@ def samplePattern(pattern, *args)
   # otherwise set standart values for position, beat_duration and mode
 
   if args_h[:position]
-    position = args_h.delete(:position)
-  else
-    position = tick
-  end
+     position = args_h.delete(:position)
+   else
+     position = tick
+   end
 
-  if args_h[:beat_duration]
-    sleep_time = args_h.delete(:beat_duration)
-  else
-    sleep_time = 1.0/pattern.length()
-  end
+   element = pattern[position] #select actual element
+   passing = position/pattern.length() #calculate passing
 
-  if args_h[:mode]
-    mode = args_h.delete(:mode)
-  else
-    mode = :samples
-  end
+   if args_h[:beat_duration]
+     sleep_time = args_h.delete(:beat_duration)
+   else
+     sleep_time = 1.0/pattern.length()
+   end
 
-  element = pattern[position] #select actual element
-  passing = position/pattern.length() #calculate passing
+   #calculate new sleep_time if brak-mode
+   #Brak: "Make a pattern sound a bit like a breakbeat. It does this by every other cycle, squashing the pattern to fit half a cycle, and offsetting it by a quarter of a cycle." (https://tidalcycles.org/functions.html)
+   if args_h[:brak]
+     args_h.delete(:brak)
+     sleep_time = getBrakSleep(pattern.length(), passing, position, sleep_time)
+   end
+
+   if args_h[:mode]
+     mode = args_h.delete(:mode)
+   else
+     mode = :samples
+   end
 
   #check the element and decide
   if element.kind_of?(Array)
@@ -77,6 +94,20 @@ def handleElement(element, mode, args_h)
   when :midis
     midi element, args_h
   end
+end
+
+def getBrakSleep(pattern_length, passing, position, sleep_time)
+  pattern_duration = pattern_length*sleep_time
+  if passing % 2 == 0 and position % pattern_length == pattern_length-1
+    braksleep = sleep_time+pattern_duration*0.25
+  elsif passing % 2 == 1 and position % pattern_length == pattern_length-1
+    braksleep = sleep_time*0.5+pattern_duration*0.25
+  elsif passing % 2 == 1
+    braksleep = sleep_time*0.5
+  else
+    braksleep = sleep_time
+  end
+  return braksleep
 end
 
 def setBeat(beat_string, sample_path: false)
