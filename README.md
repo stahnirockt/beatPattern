@@ -62,10 +62,6 @@ end
 ### Important parameters for setBeat()
 * first Parameter is a beatString --> it's required
 * optional you can pass the path to your soundfiles with `sample_path: 'path/to'file/'`
-* you can reverse a beat by `beat.reverse`
-* you can shuffle a beat by `beat.shuffle`
-* you can rotate a beat by `beat.rotate(i)` -> see ruby docs for rotate
-* you can create a palindrome by `beat.palindrome`
 
 ### Important parameters for samplePattern
 * first Parameter is a ring with sample_values (e.g. a parsed String) or notes--> it's required
