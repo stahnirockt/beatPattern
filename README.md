@@ -62,6 +62,10 @@ end
 ### Important parameters for setBeat()
 * first Parameter is a beatString --> it's required
 * optional you can pass the path to your soundfiles with `sample_path: 'path/to'file/'`
+* you can reverse a beat by `beat.reverse`
+* you can shuffle a beat by `beat.shuffle`
+* you can rotate a beat by `beat.rotate(i)` -> see ruby docs for rotate
+* you can create a palindrome by `beat.palindrome`
 
 ### Important parameters for samplePattern
 * first Parameter is a ring with sample_values (e.g. a parsed String) or notes--> it's required
@@ -69,7 +73,14 @@ Following paramters can also be set.
 * `mode:` `:notes`, `:samples` or `:midis` | standard is `:samples`
 * `beat_duration: value` | standard is 1.0/ring.length()
 * `position: value` | standard is simple `tick` but you can use numbers or something like tick(:value)
+* `brak: 1` | standard is false => Brake "[m]ake a pattern sound a bit like a breakbeat. It does this by every other cycle, squashing the pattern to fit half a cycle, and offsetting it by a quarter of a cycle." (https://tidalcycles.org/functions.html, 11.10.2018)  
 * other arguments from sample or play like `rate:` or `amp:`
+
+Because the first parameter is a ring you can:
+* reverse a beat by e.g. `beat.reverse`
+* shuffle a beat by e.g. `beat.shuffle`
+* rotate a beat by e.g. `beat.rotate(i)` -> see ruby docs for rotate
+* create a palindrome by e.g. `beat.palindrome`
 
 ## To-Do
 * improve use of Soundlibrary (assignment) for SonicPi built-in sounds with regexp
