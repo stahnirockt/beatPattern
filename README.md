@@ -65,7 +65,8 @@ end
 
 ### Important parameters for samplePattern
 * first Parameter is a ring with sample_values (e.g. a parsed String) or notes--> it's required
-Following paramters can also be set.
+
+Following paramters can also be set:
 * `mode:` `:notes`, `:samples` or `:midis` | standard is `:samples`
 * `beat_duration: value` | standard is 1.0/ring.length()
 * `position: value` | standard is simple `tick` but you can use numbers or something like tick(:value)
