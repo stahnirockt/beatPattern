@@ -26,9 +26,9 @@ beat = setBeat('x-[x:3x](-h[-:3-]h:2)', sample_path: foxdot)
 ```
 
 ### special functions for the pattern
-() - choose alternating element every passing
+( ) - choose alternating element every passing
 
-[] - play elements inside the brackets in one count
+[ ] - play elements inside the brackets in one count
 
 or just play the element
 
@@ -104,3 +104,5 @@ Because the first parameter is a ring you can:
            :hyphen => /drum_cymbal/,
            :whitespace => 'silent'}
 ```
+
+* { } - play a random element
