@@ -1,3 +1,18 @@
+class RandomArray
+  def initialize(random_array=[])
+    @random_array = random_array
+  end
+  def add(value)
+    @random_array << value
+  end
+  def getRandomArray()
+    return @random_array
+  end
+  def getRandomValue()
+    return @random_array.choose
+  end
+end
+
 def setSounds(soundpath_string = false) #path to /foxdot_snd - folder
   if soundpath_string
     @path = soundpath_string
@@ -98,6 +113,9 @@ def checkStringElement(scanner, pattern)
   elsif scanner.scan(/\(/) != nil
     arryResult = createArray(scanner) # call function to create an array
     pattern << arryResult.ring        # convert result to a ring
+  elsif scanner.scan(/\{/)
+    arryResult = createRandomArray(scanner) # call function to create an array
+    pattern << arryResult
   else
     scanner.scan(/./)
   end
@@ -111,6 +129,15 @@ def createArray(scanner)
   end
   return pattern
 end
+
+def createRandomArray(scanner)
+  pattern = []
+  until scanner.scan(/\]/) or scanner.scan(/\)/) or scanner.scan(/\}/)
+    checkStringElement(scanner, pattern)
+  end
+  return RandomArray.new(pattern)
+end
+
 
 # function to parse the string with checkstring
 # return a ring containing elements, rings or/and arrays
