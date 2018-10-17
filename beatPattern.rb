@@ -1,4 +1,5 @@
 require_relative 'beatParser.rb'
+require_relative 'melodieParser.rb'
 
 
 class ::SonicPi::Core::RingVector
@@ -18,43 +19,58 @@ def samplePattern(pattern, *args)
   # otherwise set standart values for position, beat_duration and mode
 
   if args_h[:position]
-     position = args_h.delete(:position)
-   else
-     position = tick
-   end
+    position = args_h.delete(:position)
+  else
+    position = tick
+  end
 
-   element = pattern[position] #select actual element
-   passing = position/pattern.length() #calculate passing
+  element = pattern[position] #select actual element
+  passing = position/pattern.length() #calculate passing
 
-   if args_h[:beat_duration]
-     sleep_time = args_h.delete(:beat_duration)
-   else
-     sleep_time = 1.0/pattern.length()
-   end
+  if args_h[:beat_duration]
+    sleep_time = args_h.delete(:beat_duration)
+  else
+    sleep_time = 1.0/pattern.length()
+  end
 
-   #calculate new sleep_time if brak-mode
-   #Brak: "Make a pattern sound a bit like a breakbeat. It does this by every other cycle, squashing the pattern to fit half a cycle, and offsetting it by a quarter of a cycle." (https://tidalcycles.org/functions.html)
-   if args_h[:brak]
-     args_h.delete(:brak)
-     sleep_time = getBrakSleep(pattern.length(), passing, position, sleep_time)
-   end
+  #calculate new sleep_time if brak-mode
+  #Brak: "Make a pattern sound a bit like a breakbeat. It does this by every other cycle, squashing the pattern to fit half a cycle, and offsetting it by a quarter of a cycle." (https://tidalcycles.org/functions.html)
+  if args_h[:brak]
+    args_h.delete(:brak)
+    sleep_time = getBrakSleep(pattern.length(), passing, position, sleep_time)
+  end
 
-   if args_h[:mode]
-     mode = args_h.delete(:mode)
-   else
-     mode = :samples
-   end
+  if args_h[:mode]
+    mode = args_h.delete(:mode)
+  else
+    mode = :samples
+  end
 
   #check the element and decide
   if element.kind_of?(Array)
     playNestedArray(element, sleep_time, passing, mode, args_h)
   elsif element.kind_of?(SonicPi::Core::RingVector)
     alternateRingElement(element, sleep_time, passing, mode, args_h)
+  elsif element.kind_of?(RandomArray)
+    playRandomElement(element, sleep_time, passing, mode, args_h)
   else
     #element is just a sample or note
     handleElement(element, mode, args_h)
     sleep sleep_time
   end
+end
+
+def playRandomElement(element, toplevel_sleep, toplevel_passing, mode, args_h)
+  element = element.getRandomValue
+  if element.kind_of?(Array)
+    playNestedArray(element, toplevel_sleep, toplevel_passing, mode, args_h)
+  elsif element.kind_of?(SonicPi::Core::RingVector)
+    alternateRingElement(element, toplevel_sleep, toplevel_passing, mode, args_h)
+  elsif element.kind_of?(RandomArray)
+    playRandomElement(element, toplevel_sleep, toplevel_passing, mode, args_h)
+  end
+  handleElement(element, mode, args_h)
+  sleep toplevel_sleep
 end
 
 def playNestedArray(pattern, toplevel_sleep, toplevel_passing, mode, args_h)
@@ -64,6 +80,8 @@ def playNestedArray(pattern, toplevel_sleep, toplevel_passing, mode, args_h)
       playNestedArray(element, sleep_time, toplevel_passing, mode, args_h)
     elsif element.kind_of?(SonicPi::Core::RingVector)
       alternateRingElement(element, sleep_time, toplevel_passing, mode, args_h)
+    elsif element.kind_of?(RandomArray)
+      playRandomElement(element, toplevel_sleep, toplevel_passing, mode, args_h)
     else
       handleElement(element, mode, args_h)
       sleep sleep_time
@@ -79,6 +97,8 @@ def alternateRingElement(ring_pattern, toplevel_sleep, toplevel_passing, mode, a
     alternateRingElement(element, toplevel_sleep ,ring_passing, mode ,args_h)
   elsif element.kind_of?(Array)
     playNestedArray(element, toplevel_sleep, ring_passing, mode, args_h)
+  elsif element.kind_of?(RandomArray)
+    playRandomElement(element, toplevel_sleep, toplevel_passing, mode, args_h)
   else
     handleElement(element, mode, args_h)
     sleep toplevel_sleep
@@ -117,4 +137,8 @@ def setBeat(beat_string, sample_path: false)
     setSounds()
   end
   return parseBeatString(beat_string)
+end
+
+def setMelodie(melodie_string)
+  parseMelodieString(melodie_string)
 end
