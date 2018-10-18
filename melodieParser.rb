@@ -11,6 +11,8 @@ end
 def checkMelodyStringElement(scanner, pattern)
   if scanner.scan(/\d+/) # one letter e.g. "a"
     pattern << scanner[0].to_i
+  elsif scanner.scan(/\w+/)
+  pattern << scanner[0].to_sym
   elsif scanner.scan(/r|\-/) # one letter e.g. "a"
     pattern << :r
   elsif scanner.scan(/\[/)
